@@ -1,0 +1,10 @@
+<div class="topics">
+  <div *ngFor="let topic of topics"
+       [ngStyle]="{
+         'font-size': topic.popularity * 100 + '%'
+       }">
+    <a routerLink="/th/{{ topic.name }}">
+      {{ topic.name  }}
+    </a>
+  </div>
+</div>

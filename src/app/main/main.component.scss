@@ -1,0 +1,13 @@
+.topics {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-family: sans-serif;
+  font-size: 50px;
+}
+
+.topics>div {
+  padding: 5px 10px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}

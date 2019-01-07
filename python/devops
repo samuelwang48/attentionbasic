@@ -1,0 +1,41 @@
+#!/usr/bin/env pipenv run python
+
+
+import click
+import os
+
+SUBCOMMAND = {
+    'rest': 'restful api',
+    'ws': 'websocket api',
+    'telegram': 'telegram api'
+}
+
+plugin_folder = os.path.join(os.path.dirname(__file__), 'components')
+
+class MyCLI(click.MultiCommand):
+    def list_commands(self, ctx):
+        rv = []
+        for filename in os.listdir(plugin_folder):
+            rv.append(filename)
+        rv.sort()
+        return rv
+
+    def get_command(self, ctx, name):
+        ns = {}
+        fn = os.path.join(plugin_folder, name, name + '_cli.py')
+        with open(fn) as f:
+            code = compile(f.read(), fn, 'exec')
+            eval(code, ns, ns)
+
+        ns['cli'].short_help = SUBCOMMAND[name] or ''
+        return ns['cli']
+
+
+@click.command(cls=MyCLI)
+@click.pass_context
+def cli(ctx):
+    """CLI"""
+    pass
+
+if __name__ == '__main__':
+    cli()
